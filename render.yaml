@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: smart-job-assistant
+    runtime: python
+    buildCommand: "pip install -r requirements.txt && python -m spacy download en_core_web_sm"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: GEMINI_API_KEY
+        sync: false # Requires manual entry in dashboard
+      - key: DATABASE_URL
+        sync: false # Requires manual entry in dashboard
+      - key: SECRET_KEY
+        sync: false # Requires manual entry in dashboard

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Job Assistant - AI Resume & Career Coach</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <!-- html2pdf Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="header-content">
+                <div class="logo">SmartJob<span>AI</span></div>
+                {% if current_user.is_authenticated %}
+                <div class="user-menu" style="position: relative;">
+                    <div style="display: flex; align-items: center; gap: 1rem; cursor: pointer;"
+                        onclick="document.getElementById('dropdown-menu').classList.toggle('hidden')">
+                        <span style="font-size: 0.95rem; color: #a5b4fc; font-weight: 500;">{{ current_user.email
+                            }}</span>
+                        <div class="dot-menu-btn" style="font-size: 1.5rem; color: #f8fafc; padding: 0 5px;">⋮</div>
+                    </div>
+                    <div id="dropdown-menu" class="dropdown-content hidden"
+                        style="position: absolute; right: 0; top: 100%; background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 5px; min-width: 180px; z-index: 100; box-shadow: var(--shadow-soft); margin-top: 10px;">
+
+                        <a href="/ats"
+                            style="color: var(--text-primary); text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 10px 15px; font-weight: 500; transition: 0.3s; border-radius: 6px; margin-bottom: 5px;"
+                            onmouseover="this.style.background='rgba(139, 92, 246, 0.15)'; this.style.color='#c084fc'"
+                            onmouseout="this.style.background='transparent'; this.style.color='var(--text-primary)'">
+                            ✨ Smart ATS Analyzer
+                        </a>
+
+                        <hr style="border: 0; height: 1px; background: var(--glass-border); margin: 0 0 5px 0;">
+
+                        <a href="#" id="logout-btn"
+                            style="color: #ef4444; text-decoration: none; display: block; padding: 10px 15px; font-weight: 500; transition: 0.3s; border-radius: 6px;"
+                            onmouseover="this.style.background='rgba(239, 68, 68, 0.1)'"
+                            onmouseout="this.style.background='transparent'">Sign Out</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="user-menu">
+                    <a href="/login" class="btn-primary btn-sm" style="text-decoration: none;">Sign In</a>
+                </div>
+                {% endif %}
+            </div>
+            <p class="subtitle">Unlock your career potential with AI.</p>
+        </header>
+
+        <main id="app">
+            <!-- Upload View -->
+            <div id="upload-view" class="view active">
+                <div class="glass-card">
+                    <h2>Analyze Your Resume</h2>
+                    <p class="subtitle">Upload your PDF or DOCX to extract skills and career recommendations.</p>
+                    <form id="upload-form">
+                        <div class="drop-zone" id="drop-zone">
+                            <p style="color: var(--text-primary); font-weight: 500;">Drag & Drop your resume here</p>
+                            <p class="small" style="color: var(--text-secondary);">or</p>
+                            <button type="button" class="btn-outline"
+                                onclick="document.getElementById('file-input').click()">Browse Files</button>
+                            <input type="file" id="file-input" name="resume" accept=".pdf,.docx" hidden required>
+                        </div>
+                        <div id="file-name" class="hidden"></div>
+                        <button type="submit" class="btn-primary" id="analyze-btn" disabled>Analyze Now</button>
+                    </form>
+                    <div id="loading" class="loading hidden">
+                        <div class="spinner"></div>
+                        <p style="margin-top: 15px;">AI is reading your resume...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard View -->
+            <div id="dashboard-view" class="view hidden">
+                {% include 'dashboard.html' %}
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <p>&copy; 2026 SmartJobAI. All rights reserved.</p>
+
+        </footer>
+    </div>
+    <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

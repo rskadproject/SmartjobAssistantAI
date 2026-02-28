@@ -1,0 +1,56 @@
+<div class="glass-card full-width">
+    <div class="dashboard-header">
+        <h2>Analysis Results</h2>
+        <div style="display: flex; gap: 10px;">
+            <button id="back-btn" class="btn-text">← Upload New</button>
+        </div>
+    </div>
+</div>
+
+<!-- ATS Score Section (Basic Estimation for Original Logic) -->
+<div class="glass-card">
+    <h3>Resume ATS Score Estimate</h3>
+    <div class="ats-container">
+        <div class="circle-chart-container">
+            <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="circle" id="ats-circle" stroke-dasharray="0, 100"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <text x="18" y="20.35" class="percentage" id="ats-text" style="font-size: 0.6em">0%</text>
+            </svg>
+        </div>
+        <div class="ats-tips">
+            <h4>General Improvement Tips:</h4>
+            <ul id="ats-tips-list"></ul>
+        </div>
+    </div>
+</div>
+
+<!-- Skills Section -->
+<div class="glass-card">
+    <h3>Extracted Skills</h3>
+    <div class="skills-table-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="skills-column">
+            <h4 class="skill-header">Technical Skills</h4>
+            <div id="tech-skills-list" class="tags-wrapper"></div>
+        </div>
+        <div class="skills-column">
+            <h4 class="skill-header">Soft Skills</h4>
+            <div id="soft-skills-list" class="tags-wrapper"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Skill Gap Analysis -->
+<div class="glass-card">
+    <h3>General Skill Gap Analysis</h3>
+    <p class="section-subtitle">Recommended skills to boost your profile for the roles below:</p>
+    <div id="missing-skills-list" class="gap-wrapper"></div>
+</div>
+
+<!-- Job Roles -->
+<div class="glass-card">
+    <h3>Recommended Roles</h3>
+    <div id="roles-list" class="roles-wrapper" style="display: flex; flex-direction: column; gap: 10px;"></div>
+</div>

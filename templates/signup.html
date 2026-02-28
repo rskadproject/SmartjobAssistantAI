@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Smart Job Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="container" style="max-width: 400px; margin-top: 10vh;">
+        <header style="text-align: center; margin-bottom: 2rem;">
+            <div class="logo">SmartJob<span>AI</span></div>
+            <p>Create your account</p>
+        </header>
+
+        <div class="glass-card">
+            <form id="signup-form">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="input-field" required placeholder="you@example.com">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="input-field" required
+                        placeholder="•••••••• (min 6 chars)">
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Sign Up</button>
+            </form>
+            <div id="msg" style="margin-top: 10px; font-size: 0.9rem; text-align: center;"></div>
+        </div>
+
+        <p style="text-align: center; margin-top: 20px; color: #6b7280;">
+            Already have an account? <a href="/login"
+                style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Sign in</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const msg = document.getElementById('msg');
+            const btn = e.target.querySelector('button');
+
+            btn.disabled = true;
+            btn.textContent = 'Signing up...';
+            msg.textContent = '';
+
+            try {
+                const res = await fetch('/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    msg.style.color = '#10b981';
+                    msg.textContent = 'Account created! Redirecting...';
+                    setTimeout(() => window.location.href = '/', 1000);
+                } else {
+                    msg.style.color = '#ef4444';
+                    msg.textContent = data.error || 'Signup failed.';
+                    btn.disabled = false;
+                    btn.textContent = 'Sign Up';
+                }
+            } catch (err) {
+                msg.style.color = '#ef4444';
+                msg.textContent = 'A network error occurred.';
+                btn.disabled = false;
+                btn.textContent = 'Sign Up';
+            }
+        });
+    </script>
+</body>
+
+</html>
