@@ -153,7 +153,7 @@ def analyze():
             
         # Basic AI Analysis (Original Behavior)
         try:
-            ai_analysis = analyze_with_ai(text, jd_text="")
+            ai_analysis = analyze_with_ai(text)
         except:
              ai_analysis = {"error": "Failed to analyze resume"}
 
