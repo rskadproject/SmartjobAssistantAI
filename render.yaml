@@ -6,7 +6,7 @@ services:
     startCommand: "gunicorn app:app"
     envVars:
       - key: PYTHON_VERSION
-        value: 3.12.0
+        value: 3.10.13
       - key: GEMINI_API_KEY
         sync: false # Requires manual entry in dashboard
       - key: DATABASE_URL
