@@ -127,7 +127,6 @@ def logout():
 
 
 @app.route('/analyze', methods=['POST'])
-@login_required
 def analyze():
     if 'resume' not in request.files:
         return jsonify({"error": "No file uploaded"}), 400
@@ -154,8 +153,9 @@ def analyze():
         # Basic AI Analysis (Original Behavior)
         try:
             ai_analysis = analyze_with_ai(text)
-        except:
-             ai_analysis = {"error": "Failed to analyze resume"}
+        except Exception as e:
+             print(f"Error in /analyze: {e}")
+             ai_analysis = {"error": f"Failed to analyze resume {str(e)}"}
 
         try:
             os.remove(filepath)

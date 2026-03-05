@@ -64,6 +64,35 @@ h6 {
     letter-spacing: -0.02em;
 }
 
+.role-card h4 {
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-size: 1.15rem;
+}
+
+.job-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.job-badge {
+    padding: 6px 12px;
+    background: rgba(59, 130, 246, 0.1);
+    color: #93c5fd;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.job-badge:hover {
+    background: rgba(59, 130, 246, 0.2);
+    transform: translateY(-2px);
+}
+
 p {
     margin-bottom: 1.2rem;
     color: var(--text-secondary);

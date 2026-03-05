@@ -126,12 +126,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         softSkillsList.innerHTML = '';
 
         if (data.technical_skills) {
-            Object.values(data.technical_skills).flat().forEach(skill => {
-                const span = document.createElement('span');
-                span.className = 'skill-tag';
-                span.textContent = skill;
-                techSkillsList.appendChild(span);
-            });
+            for (const [category, skills] of Object.entries(data.technical_skills)) {
+                if (skills && skills.length > 0) {
+                    const cleanCategory = category.replace(/_/g, ' ');
+
+                    const catTitle = document.createElement('h4');
+                    catTitle.textContent = cleanCategory;
+                    catTitle.style.marginTop = '15px';
+                    catTitle.style.marginBottom = '10px';
+                    catTitle.style.color = 'var(--text-secondary)';
+                    catTitle.style.fontSize = '0.95rem';
+                    techSkillsList.appendChild(catTitle);
+
+                    const p = document.createElement('p');
+                    p.style.display = 'flex';
+                    p.style.flexWrap = 'wrap';
+                    p.style.gap = '8px';
+
+                    skills.forEach(skill => {
+                        const span = document.createElement('span');
+                        span.className = 'skill-tag';
+                        span.textContent = skill;
+                        p.appendChild(span);
+                    });
+                    techSkillsList.appendChild(p);
+                }
+            }
         }
 
         if (data.soft_skills) {
@@ -150,7 +170,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             data.job_roles.forEach(role => {
                 const div = document.createElement('div');
                 div.className = 'role-card';
-                div.innerHTML = `<h4>${role.title}</h4><p>${role.description}</p>`;
+                const jobQuery = encodeURIComponent(role.title);
+                div.innerHTML = `
+                    <h4>${role.title}</h4>
+                    <p style="margin-bottom: 12px;">${role.description}</p>
+                    <div class="job-links">
+                        <a href="https://www.linkedin.com/jobs/search/?keywords=${jobQuery}" target="_blank" class="job-badge">LinkedIn ↗</a>
+                        <a href="https://www.naukri.com/${jobQuery.replace(/%20/g, '-')}-jobs" target="_blank" class="job-badge">Naukri ↗</a>
+                        <a href="https://in.indeed.com/jobs?q=${jobQuery}" target="_blank" class="job-badge">Indeed ↗</a>
+                    </div>
+                `;
                 rolesList.appendChild(div);
             });
         }
