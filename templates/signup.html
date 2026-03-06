@@ -21,6 +21,10 @@
         <div class="glass-card">
             <form id="signup-form">
                 <div class="input-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="input-field" required>
+                </div>
+                <div class="input-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" class="input-field" required placeholder="you@example.com">
                 </div>
@@ -43,7 +47,8 @@
     <script>
         document.getElementById('signup-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const msg = document.getElementById('msg');
             const btn = e.target.querySelector('button');
@@ -58,7 +63,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ name, email, password })
                 });
 
                 const data = await res.json();

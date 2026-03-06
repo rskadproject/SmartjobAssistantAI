@@ -43,6 +43,7 @@ login_manager.init_app(app)
 # Database Model
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), nullable=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
 
@@ -99,6 +100,7 @@ def signup():
         
     if request.method == 'POST':
         data = request.json
+        name = data.get('name')
         email = data.get('email')
         password = data.get('password')
         
@@ -109,7 +111,7 @@ def signup():
         if len(password) < 6:
             return jsonify({"error": "Password must be at least 6 characters"}), 400
             
-        new_user = User(email=email, password_hash=generate_password_hash(password, method='pbkdf2:sha256'))
+        new_user = User(name=name, email=email, password_hash=generate_password_hash(password, method='pbkdf2:sha256'))
         db.session.add(new_user)
         db.session.commit()
         

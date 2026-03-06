@@ -15,11 +15,14 @@
 
 <body>
     <div class="container">
-        <header class="main-header">
-            <div class="header-content">
-                <div class="logo">SmartJob<span>AI</span></div>
+        <header class="main-header" style="position: relative; text-align: center;">
+            <div class="header-content"
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <a href="/" style="text-decoration: none; color: inherit;">
+                    <div class="logo">SmartJob<span>AI</span></div>
+                </a>
                 {% if current_user.is_authenticated %}
-                <div class="user-menu" style="position: relative;">
+                <div class="user-menu" style="position: absolute; right: 0; top: 0;">
                     <div style="display: flex; align-items: center; gap: 1rem; cursor: pointer;"
                         onclick="document.getElementById('dropdown-menu').classList.toggle('hidden')">
                         <span style="font-size: 0.95rem; color: #a5b4fc; font-weight: 500;">{{ current_user.email
@@ -44,9 +47,13 @@
                             onmouseout="this.style.background='transparent'">Sign Out</a>
                     </div>
                 </div>
+                {% else %}
+                <div class="user-menu" style="position: absolute; right: 0; top: 0;">
+                    <a href="/login" class="btn-primary btn-sm" style="text-decoration: none;">Sign In</a>
+                </div>
                 {% endif %}
             </div>
-            <p class="subtitle">Deep dive ATS compatbility scoring.</p>
+            <p class="subtitle" style="text-align: center; margin-top: 5px;">Deep dive ATS compatbility scoring.</p>
         </header>
 
         <main id="app">
@@ -87,8 +94,8 @@
             </div>
         </main>
 
-        <footer class="main-footer">
-            <p>&copy; 2026 SmartJobAI. All rights reserved.</p>
+        <footer class="main-footer" style="text-align: center;">
+            <p style="text-align: center; margin: 0 auto;">&copy; 2026 SmartJobAI. All rights reserved.</p>
         </footer>
     </div>
 

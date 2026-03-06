@@ -11,15 +11,23 @@ load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
 URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent"
 
+import time
+
 def call_gemini(text):
     if not API_KEY: return "Error: No API Key found in .env"
     headers = {'Content-Type': 'application/json'}
     data = {"contents": [{"parts": [{"text": text}]}]}
-    # Simple Retry Logic
-    for attempt in range(2):
+    # Simple Retry Logic with Backoff for 503s
+    for attempt in range(3):
         try:
-            resp = requests.post(f"{URL}?key={API_KEY}", headers=headers, json=data, timeout=60)
+            resp = requests.post(f"{URL}?key={API_KEY}", headers=headers, json=data, timeout=120)
             
+            if resp.status_code == 503:
+                if attempt < 2:
+                    time.sleep(3) # Wait 3 seconds and retry on high demand
+                    continue
+                return f"Error {resp.status_code}: {resp.text}"
+                
             if resp.status_code != 200:
                 return f"Error {resp.status_code}: {resp.text}"
                 
@@ -29,8 +37,9 @@ def call_gemini(text):
                 
             return res_json['candidates'][0]['content']['parts'][0]['text']
         except Exception as e:
-            if attempt == 1: # Last attempt
+            if attempt == 2: # Last attempt
                 return f"Error connecting to AI: {str(e)}"
+            time.sleep(2)
 
 # Extractors
 def extract_text_from_pdf(file_path):
